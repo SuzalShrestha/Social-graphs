@@ -52,28 +52,59 @@ class SocialNetwork {
 
   getRecommendedFollows(userID, degrees) {
     // Your code here
-   
+    let recommended = [];
+    let visited = new Set();
+    let queue = [userID];
+    let currentDegree = 0;
+    visited.add(userID);
+    while (queue.length > 0 && currentDegree < degrees) {
+      let current = queue.shift();
+      let currentSet = this.getFollows(current);
+      currentSet.forEach((user) => {
+        if (!visited.has(user)) {
+          visited.add(user);
+          queue.push(user);
+          recommended.push(user);
+        }
+      });
+      currentDegree++;
+    }
+    while (queue.length > 0) {
+      let current = queue.shift();
+      let currentSet = this.getFollows(current);
+      currentSet.forEach((user) => {
+        if (!visited.has(user)) {
+          visited.add(user);
+          recommended.push(user);
+        }
+      });
+    }
+
+    return recommended.slice(1);
   }
 }
-let socialNetwork = new SocialNetwork();
+// let socialNetwork = new SocialNetwork();
 
-let userID1 = socialNetwork.addUser("User 1");
-let userID2 = socialNetwork.addUser("User 2");
-let userID3 = socialNetwork.addUser("User 3");
-let userID4 = socialNetwork.addUser("User 4");
-let userID5 = socialNetwork.addUser("User 5");
-let userID6 = socialNetwork.addUser("User 6");
+// let userID1 = socialNetwork.addUser("User 1");
+// let userID2 = socialNetwork.addUser("User 2");
+// let userID3 = socialNetwork.addUser("User 3");
+// let userID4 = socialNetwork.addUser("User 4");
+// let userID5 = socialNetwork.addUser("User 5");
+// let userID6 = socialNetwork.addUser("User 6");
 
-socialNetwork.follow(1, 2);
-socialNetwork.follow(2, 3);
-socialNetwork.follow(3, 4);
-socialNetwork.follow(3, 5);
-socialNetwork.follow(4, 1);
-socialNetwork.follow(4, 2);
-socialNetwork.follow(5, 6);
+// socialNetwork.follow(1, 2);
+// socialNetwork.follow(2, 3);
+// socialNetwork.follow(3, 4);
+// socialNetwork.follow(3, 5);
+// socialNetwork.follow(4, 1);
+// socialNetwork.follow(4, 2);
+// socialNetwork.follow(5, 6);
 
-console.log(socialNetwork.getRecommendedFollows(1, 1))//.to.have.members([3]);
-console.log(socialNetwork.getRecommendedFollows(1, 2))//.to.have.members([3, 4, 5]);
-console.log(socialNetwork.getRecommendedFollows(1, 3))//.to.have.members([3, 4, 5, 6]);
+//console.log(socialNetwork.getRecommendedFollows(1, 1))
+//console.log(socialNetwork.getRecommendedFollows(1, 2))
+//console.log(socialNetwork.getRecommendedFollows(1, 3))
+//.to.have.members([3]);
+//.to.have.members([3, 4, 5]);
+//.to.have.members([3, 4, 5, 6]);
 
 module.exports = SocialNetwork;
