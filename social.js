@@ -52,15 +52,28 @@ class SocialNetwork {
 
   getRecommendedFollows(userID, degrees) {
     // Your code here
+   
   }
 }
 let socialNetwork = new SocialNetwork();
+
 let userID1 = socialNetwork.addUser("User 1");
 let userID2 = socialNetwork.addUser("User 2");
-socialNetwork.follow(userID1, userID2);
+let userID3 = socialNetwork.addUser("User 3");
+let userID4 = socialNetwork.addUser("User 4");
+let userID5 = socialNetwork.addUser("User 5");
+let userID6 = socialNetwork.addUser("User 6");
 
-console.log(socialNetwork.getFollowers(userID1).size); //0
-console.log(socialNetwork.getFollowers(userID2).size); //1
+socialNetwork.follow(1, 2);
+socialNetwork.follow(2, 3);
+socialNetwork.follow(3, 4);
+socialNetwork.follow(3, 5);
+socialNetwork.follow(4, 1);
+socialNetwork.follow(4, 2);
+socialNetwork.follow(5, 6);
 
-console.log(socialNetwork.getFollowers(userID2));
+console.log(socialNetwork.getRecommendedFollows(1, 1))//.to.have.members([3]);
+console.log(socialNetwork.getRecommendedFollows(1, 2))//.to.have.members([3, 4, 5]);
+console.log(socialNetwork.getRecommendedFollows(1, 3))//.to.have.members([3, 4, 5, 6]);
+
 module.exports = SocialNetwork;
